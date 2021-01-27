@@ -5,6 +5,18 @@ const host = 'localhost';
 const port = 8000;
 
 //№1
+fs.unlink("./files/deleteFile.txt", (err) => {
+  if (err) {
+    console.log('ERROR', err);
+    return;
+  };
+});
+fs.unlink("./files1/deleteFile.txt", (err) => {
+  if (err) {
+    console.log('ERROR', err);
+    return;
+  };
+});
 
 fs.writeFile('./files/image.svg', '', 'utf-8', (err) => {
   if (err) {
