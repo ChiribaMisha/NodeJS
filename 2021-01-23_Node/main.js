@@ -61,11 +61,11 @@ request('https://dou.ua/', function (error, response, body) {
 
     fs.readFile("arr.txt", "utf8", (error, data) => {
       if (error) throw error;
-      let a = data;
+      // let a = data;
       const requestListener = (req, res) => {
 
         res.writeHead(200);
-        res.end(`${a}`);
+        res.end(`${data}`);
       };
 
       const server = http.createServer(requestListener);
