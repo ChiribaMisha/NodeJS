@@ -2,35 +2,38 @@ const request = require('request');
 const fs = require('fs');
 const http = require("http");
 const host = 'localhost';
-const port = 8000;
+const port = 3000;
 
 //№1
-fs.unlink("./files/deleteFile.txt", (err) => {
-  if (err) {
-    console.log('ERROR', err);
-    return;
-  };
-});
-fs.unlink("./files1/deleteFile.txt", (err) => {
+
+fs.unlink("./folder/deleteFile.txt", (err) => {
   if (err) {
     console.log('ERROR', err);
     return;
   };
 });
 
-fs.writeFile('./files/image.svg', '', 'utf-8', (err) => {
+fs.unlink("./folder1/deleteFile.txt", (err) => {
   if (err) {
     console.log('ERROR', err);
     return;
   };
+});
 
-  fs.rename('./files/image.svg', './files1/image.svg', (err) => {
+const moveImg = (err) => {
+  if (err) {
+    console.log('ERROR', err);
+    return;
+  };
+  fs.rename('./folder/image.svg', './folder1/image.svg', (err) => {
     if (err) {
       console.log('ERROR', err);
       return;
-    };
+    }
   });
-});
+};
+
+fs.writeFile('./folder/image.svg', '', 'utf-8', moveImg);
 
 //№2
 
@@ -52,18 +55,12 @@ request('https://dou.ua/', function (error, response, body) {
 
     let str1 = tempArr.join("\n");
 
-    fs.writeFile('./arr.txt', str1, 'utf-8', (err) => {
-      if (err) {
-        console.log('ERROR', err);
-        return;
-      };
-    });
 
-    fs.readFile("arr.txt", "utf8", (error, data) => {
+
+    const read = (error, data) => {
       if (error) throw error;
-      // let a = data;
-      const requestListener = (req, res) => {
 
+      const requestListener = (req, res) => {
         res.writeHead(200);
         res.end(`${data}`);
       };
@@ -73,6 +70,19 @@ request('https://dou.ua/', function (error, response, body) {
       server.listen(port, host, () => {
         console.log(`server is running on http://${host}:${port}`);
       });
-    });
+    };
+
+    const write = (err) => {
+      if (err) {
+        console.log('ERROR', err);
+        return;
+      };
+
+      fs.readFile("arr.txt", "utf8", read);
+    }
+
+    fs.writeFile('./arr.txt', str1, 'utf-8', write);
+
+
   };
 });
