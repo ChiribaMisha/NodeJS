@@ -1,0 +1,15 @@
+.calendar {
+  display: grid;
+  width: 200px;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+
+.prev-days {
+  color: lightgray;
+}
+
+.year-month {
+  width: 200px;
+  text-align: center;
+}

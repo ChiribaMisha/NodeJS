@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <div class="year-month">
+    <%= monthName%>
+      <%= year%>
+  </div>
+  <div class="calendar">
+    <% for(let i=0; i < daysNameArr.length; i++){ %>
+      <div>
+        <%= daysNameArr[i] %>
+      </div>
+      <%}%>
+
+        <% for(let i=0; i < prevDaysArr.length; i++){ %>
+          <div class="prev-days">
+            <%= prevDaysArr[i] %>
+          </div>
+          <%}%>
+
+            <% for(let i=0; i < daysArr.length; i++){ %>
+              <div>
+                <%= daysArr[i] %>
+              </div>
+              <%}%>
+
+  </div>
+
+
+  <script src="../public/javascripts/main.js"></script>
+</body>
+
+</html>

@@ -14,5 +14,9 @@ router.get('/blog/editArticle', function (req, res, next) {
   res.render('editArticle', { title: 'editArticle' });
 });
 
+router.get('/cabinet', function (req, res, next) {
+  res.render('cabinet', { title: 'cabinet' });
+});
+
 
 module.exports = router;
