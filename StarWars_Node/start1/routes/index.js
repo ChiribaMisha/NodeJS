@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const axios = require('axios');
 
-router.get('/people/:number', async (req, res) => {
+router.get('/character/:number', async (req, res) => {
   let number = req.params.number;
   const arr = await axios.get(`http://swapi.dev/api/people/${number}`);
 

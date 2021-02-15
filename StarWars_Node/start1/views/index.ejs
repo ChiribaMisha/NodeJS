@@ -5,15 +5,20 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/main.css">
   <title>EJS test</title>
 </head>
 
 <body>
   <div class="name">
-    Name: <%= name %>
+    <h1>
+      <%= name %>
+    </h1>
   </div>
+  <p>
+    <%= name %>, you played in:
+  </p>
   <ul>
-    Films:
     <% for(let i=0; i < filmsName.length; i++){ %>
       <li>
         <%= filmsName[i] %>(<%= species[i] %>)
