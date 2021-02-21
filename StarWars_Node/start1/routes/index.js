@@ -4,6 +4,7 @@ const axios = require('axios');
 
 router.get('/character/:number', async (req, res) => {
   let number = req.params.number;
+
   const arr = await axios.get(`http://swapi.dev/api/people/${number}`);
 
   const name = arr.data.name;
@@ -15,22 +16,15 @@ router.get('/character/:number', async (req, res) => {
   const filmsArr = await Promise.all(films);
   const filmsName = filmsArr.map(e => e.data.title);
 
-  const speciesArr = filmsArr.map(e => e.data.species);
+  const speciesArr = filmsArr.map(e => e.data.species.map(el => {
+    return axios.get(`${el}`).then(r => r.data.name);
+  }));
 
-  const tempArr = [];
-  const speciesNameArr = [];
+  const speciesNameArr = await Promise.all(speciesArr.map(el => Promise.all(el)));
 
-  for (i = 0; i < speciesArr.length; i++) {
-    tempArr.push(
-      speciesArr[i].map(el => {
-        return axios.get(`${el}`).then(r => r.data.name);
-      }))
-    speciesNameArr.push(await Promise.all(tempArr[i]));
-  }
+  const r = { name: name, filmsName: filmsName, species: speciesNameArr };
 
-  const r = { name: name, filmsName: filmsName, species: speciesNameArr }
   res.render('index', r)
-
 });
 
 module.exports = router;
