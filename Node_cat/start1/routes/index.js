@@ -16,6 +16,7 @@ router.post('/', upload.none(), async (req, res) => {
 
   const getCountriesArr = async (url) => {
     const countriesObj = await axios.get(url);
+
     return countries = countriesObj.data.map(el => {
       return { name: el.name, flag: el.flag, code: el.alpha2Code };
     })
@@ -32,7 +33,14 @@ router.post('/', upload.none(), async (req, res) => {
     const catObj = await axios.get(url);
 
     return cat = await Promise.all(catObj.data.map(async (el) => {
-      return { name: el.name, code: el.country_code, img: (el.image === undefined || el.image.url === undefined) ? await axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${el.id}`).then(r => r.data).then(e => e.map(el => el.url)) : el.image.url };
+
+      const catUrl = () => {
+        return axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${el.id}`)
+          .then(r => r.data)
+          .then(e => e.map(el => el.url))
+      }
+
+      return { name: el.name, code: el.country_code, img: (el.image === undefined || el.image.url === undefined) ? await catUrl() : el.image.url };
     }));
   };
 
