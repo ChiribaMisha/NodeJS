@@ -22,33 +22,37 @@ router.post('/', upload.none(), async (req, res) => {
     })
   };
 
-  const countriesAll = await getCountriesArr(urlCountries);
-
-
   // Cat
 
-  const urlCat = `https://api.thecatapi.com/v1/breeds`;
+  const urlCatsMain = `https://api.thecatapi.com/v1/breeds`;
+  const objCatsMain = await axios.get(urlCatsMain);
+  const arrCatsMain = objCatsMain.data;
 
-  const getCatArr = async (url) => {
-    const catObj = await axios.get(url);
-
-    return cat = await Promise.all(catObj.data.map(async (el) => {
-
-      const catUrl = () => {
-        return axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${el.id}`)
-          .then(r => r.data)
-          .then(e => e.map(el => el.url))
-      }
-
-      return { name: el.name, code: el.country_code, img: (el.image === undefined || el.image.url === undefined) ? await catUrl() : el.image.url };
-    }));
-  };
-
-  const catAll = await getCatArr(urlCat);
+  const arrCats = arrCatsMain.map(el => {
+    return new Promise((resolve, reject) => {
+      if (el.image === undefined || el.image.url === undefined) {
+        axios.get(`https://api.thecatapi.com/v1/images/search?breed_id=${el.id}`)
+          .then(img => {
+            resolve({
+              name: el.name,
+              code: el.country_code,
+              img: img.data[0].url,
+            })
+          })
+          .catch(err => console.log(err));
+      } else {
+        resolve({
+          name: el.name,
+          code: el.country_code,
+          img: el.image.url
+        });
+      };
+    });
+  });
 
   // Send
 
-  const r = { country: countriesAll, cat: catAll };
+  const r = { country: await getCountriesArr(urlCountries), cat: await Promise.all(arrCats) };
 
   res.send(r);
 });

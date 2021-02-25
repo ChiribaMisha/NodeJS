@@ -13,6 +13,7 @@ inputEl.forEach(e => {
            <h1>${el.name}</h1>
             <img src="${el.flag}" class= "flag" alt="${el.flag}">
             </div>
+            <div class="catAll"></div>
             </div>`;
         });
 
@@ -26,7 +27,7 @@ inputEl.forEach(e => {
 
               el.classList.add("none-delete");
 
-              el.insertAdjacentHTML('beforeend', `
+              el.querySelector('.catAll').insertAdjacentHTML('beforeend', `
                                                     <div class="cat ${e.name}">
                                                        <div class="cat-name">  <h2>${e.name}<h2></div>
                                                         <img src="${e.img}" class="cat-img">
