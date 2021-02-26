@@ -22,13 +22,16 @@ router.post('/', upload.none(), async (req, res) => {
     })
   };
 
+  const countriesArr = await getCountriesArr(urlCountries);
+
+
   // Cat
 
   const urlCatsMain = `https://api.thecatapi.com/v1/breeds`;
   const objCatsMain = await axios.get(urlCatsMain);
   const arrCatsMain = objCatsMain.data;
 
-  const arrCats = arrCatsMain.map(el => {
+  const arrCats = await Promise.all(arrCatsMain.map(el => {
     return new Promise((resolve, reject) => {
       if (el.image === undefined || el.image.url === undefined) {
         axios.get(`https://api.thecatapi.com/v1/images/search?breed_id=${el.id}`)
@@ -48,11 +51,12 @@ router.post('/', upload.none(), async (req, res) => {
         });
       };
     });
-  });
+  }));
+
 
   // Send
 
-  const r = { country: await getCountriesArr(urlCountries), cat: await Promise.all(arrCats) };
+  const r = { country: countriesArr, cat: arrCats };
 
   res.send(r);
 });
