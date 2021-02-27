@@ -5,19 +5,26 @@ const multer = require('multer');
 const momemt = require('moment');
 const fs = require('fs');
 
-fs.mkdir(`./${momemt().format('YYYY-MM-DD')}`, err => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("New directory successfully created.");
-  }
-})
+if (!fs.existsSync(`${momemt().format('YYYY-MM-DD')}`)) { // Проверка на наличие папки
+
+  fs.mkdir(`./${momemt().format('YYYY-MM-DD')}`, err => { // Создание папки 
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("New directory successfully created.");
+    }
+  });
+
+} else { // Если папка создана
+  console.log("Folder already created");
+}
 
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, `./${momemt().format('YYYY-MM-DD')}`)
   },
+
   filename: (req, file, cb) => {
     let fileFormat = file.mimetype.split('/');
     cb(null, `${req.body.name}.${fileFormat[fileFormat.length - 1]}`)
