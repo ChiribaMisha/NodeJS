@@ -26,6 +26,8 @@ form.addEventListener('submit', ev => {
 
   const data = new FormData(form);
   axios.post('/', data)
-    .then(r => answEl.innerHTML = `OK: ${r.data}`)
-    .catch(e => answEl.innerHTML = `ERROR: ${e}`)
+    .then(r => answEl.innerHTML = `${r.data}`)
+    .catch(e => answEl.innerHTML = `ERROR: ${e}`);
+
+  form.reset();
 })
