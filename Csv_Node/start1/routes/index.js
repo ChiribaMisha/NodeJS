@@ -5,7 +5,6 @@ const multer = require('multer');
 const upload = multer();
 const fs = require('fs');
 const path = require('path');
-const { error } = require('console');
 
 router.get('/', (req, res) => {
   res.render('index');
