@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EJS test</title>
+</head>
+
+<body>
+  <table border="1">
+    <tr>
+      <th>id</th>
+      <th>make</th>
+      <th>model</th>
+      <th>year</th>
+    </tr>
+    <%car.forEach(el=> {%>
+      <tr>
+        <td>
+          <%= el.id%>
+        </td>
+        <td>
+          <%= el.make%>
+        </td>
+        <td>
+          <%= el.model%>
+        </td>
+        <td>
+          <%= el.year%>
+        </td>
+      </tr>
+      <%})%>
+  </table>
+  <script src="./js/main.js"></script>
+</body>
+
+</html>
