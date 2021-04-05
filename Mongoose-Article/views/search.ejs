@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <form id="form-search-year">
+    From: <input type="date" name="from">
+    To: <input type="date" name="to">
+
+    <button type="submit">Search</button>
+  </form>
+
+  <form id="form-search-tag">
+    <select name="tags" multiple>
+      <% tags.forEach(el=> { %>
+        <option value="<%=el%>">
+          <%=el%>
+        </option>
+        <%})%>
+    </select>
+
+    <button type="submit">Search</button>
+  </form>
+
+
+  <div class="result"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+  <script src="./js/search.js"></script>
+</body>
+
+</html>

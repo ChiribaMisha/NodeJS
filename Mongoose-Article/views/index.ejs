@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <form id="form-add">
+    <input type="text" name="title" placeholder="title">
+    <input type="text" name="article" placeholder="article" required>
+    <input type="text" name="tags" placeholder="tags" required>
+    <input type="date" name="date" required>
+
+    <input name="author" list="author" placeholder="author">
+    <datalist id="author">
+      <% author.forEach(el=> { %>
+        <option value=<%=el%> >
+          <%})%>
+    </datalist>
+
+    <button type="submit" value="Add user">OK</button>
+  </form>
+
+  <div class="result">
+    <% articles.forEach((el, index)=> { %>
+      <div>
+        <%= el.title%>
+          <%= el.article%>
+            <%= el.tags%>
+              <%= viewDate[index]%>
+                <%= el.author%>
+      </div>
+      <%})%>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+  <script src="./js/index.js"></script>
+</body>
+
+</html>
