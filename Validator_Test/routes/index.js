@@ -6,6 +6,6 @@ const upload = multer();
 const validator = require('./validator');
 
 router.get('/', controllers.renderIndex);
-router.post('/add', upload.none(), validator.validation, controllers.addNewArticle);
+router.post('/add', upload.none(), validator.validation, controllers.sendOk);
 
 module.exports = router;
