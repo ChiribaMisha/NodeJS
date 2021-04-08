@@ -1,5 +1,5 @@
 const Ajv = require("ajv");
-const ajv = new Ajv();
+const ajv = new Ajv({ allErrors: true });
 
 const validation = (req, res, next) => {
 
@@ -29,7 +29,16 @@ const validation = (req, res, next) => {
   const validate = ajv.compile(schema);
   const valid = validate(req.body);
   if (!valid) {
-    res.send(validate.errors[0].instancePath)
+    if (validate.errors.length > 1) {
+      console.log('++++++');
+      const arrError = validate.errors.reduce((result, item) => {
+        result.push(item.instancePath);
+        return Array.from(new Set(result));
+      }, []);
+      res.send(arrError);
+    } else {
+      res.send(validate.errors[0].instancePath);
+    };
   } else {
     next();
   };

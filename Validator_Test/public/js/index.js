@@ -6,7 +6,6 @@ form.addEventListener('submit', event => {
   const data = new FormData(form);
   axios.post('/add', data)
     .then(r => {
-      console.log(r.data);
       if (r.data === 'OK') {
         result.innerHTML = 'OK'
         const inputs = document.querySelectorAll('input');
@@ -14,13 +13,27 @@ form.addEventListener('submit', event => {
           el.style.border = "";
         });
       } else {
-        const inputs = document.querySelectorAll('input');
-        inputs.forEach(el => {
-          el.style.border = "";
-        });
-        result.innerHTML = `Ошибка в поле ${r.data.slice(1)}`;
-        const inputError = document.querySelector(`input[name="${r.data.slice(1)}"]`);
-        inputError.style.border = "1px solid red";
+        if (Array.isArray(r.data) === true) {
+          let str = '';
+          const inputs = document.querySelectorAll('input');
+          inputs.forEach(el => {
+            el.style.border = "";
+          });
+          r.data.forEach(el => {
+            const inputError = document.querySelector(`input[name="${el.slice(1)}"]`);
+            inputError.style.border = "1px solid red";
+            str = `${str}${el.slice(1)}, `;
+            result.innerHTML = `Ошибка в поле ${str}`;
+          })
+        } else {
+          const inputs = document.querySelectorAll('input');
+          inputs.forEach(el => {
+            el.style.border = "";
+          });
+          result.innerHTML = `Ошибка в поле ${r.data.slice(1)}`;
+          const inputError = document.querySelector(`input[name="${r.data.slice(1)}"]`);
+          inputError.style.border = "1px solid red";
+        }
       }
 
     })
