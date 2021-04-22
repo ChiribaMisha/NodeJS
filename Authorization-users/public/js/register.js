@@ -15,7 +15,7 @@ form.addEventListener('submit', event => {
           el.style.border = "";
         });
 
-        location.href = `/register/welcom${inptName.value}`;
+        location.href = `/welcom${inptName.value}`;
 
       } else {
         let str = '';

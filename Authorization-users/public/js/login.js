@@ -15,7 +15,7 @@ form.addEventListener('submit', event => {
           el.style.border = "";
         });
 
-        location.href = `/login/welcom${r.data.userName}`;
+        location.href = `/welcom${r.data.userName}`;
 
       } else if (r.data.Error === true) {
         result.innerHTML = r.data.info;

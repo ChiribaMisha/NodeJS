@@ -7,7 +7,7 @@ module.exports = new Schema({
     required: true,
     unique: true,
   },
-  password: {
+  passwordHash: {
     type: "string",
     required: true,
   },

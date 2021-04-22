@@ -2,25 +2,27 @@ const Users = require('../model/Users');
 const mongoose = require('mongoose');
 
 
-const renderIndex = (req, res) => {
+const renderLogin = (req, res) => {
   res.render('login');
 };
 
-const login = async (req, res) => {
+const authUserByEmail = async (req, res) => {
   const { email, password } = req.body;
-  const user = await Users.checkUser(email, password);
 
-  if (user.Error === false) res.send({ status: 'OK', userName: user.name });
-  if (user.Error === true) res.send({ Error: true, info: user.ErrorInfo });
+  const userFromDB = await Users.findUserByEmail(email);
 
-};
+  if (userFromDB === null) {
+    res.send({ Error: true, info: 'User not found' });
+    return;
+  };
 
-const renderUser = (req, res) => {
-  res.render('user', { name: req.params.name });
+  const frontObj = new Users({ password });
+  const checkUser = await frontObj.authUser(userFromDB);
+
+  (checkUser === true) ? res.send({ status: 'OK', userName: userFromDB.name }) : res.send({ Error: true, info: 'Password not correct' });
 };
 
 module.exports = {
-  renderIndex,
-  login,
-  renderUser,
+  renderLogin,
+  authUserByEmail
 };
