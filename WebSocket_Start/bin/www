@@ -1,0 +1,92 @@
+var app = require('../app');
+var debug = require('debug')('socetstart:server');
+var http = require('http');
+var server = http.createServer(app);
+const io = require('socket.io')(server);
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+let clients = [];
+
+io.on('connection', socket => {
+  console.log(`Client with id ${socket.id} connected`);
+  clients.push(socket.id);
+
+  const getRandomInt = () => {
+    return Math.floor((10 - 1) * Math.random() + 1) * 1000;
+  };
+  setInterval(() => {
+    socket.emit('message', "I'm server");
+  }, getRandomInt());
+
+  socket.on('message', message => console.log('Message', message));
+
+  socket.on('disconnect', () => {
+    clients.splice(clients.indexOf(socket.id), 1);
+    console.log(`Client with id ${socket.id} disconnected`);
+  })
+})
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
