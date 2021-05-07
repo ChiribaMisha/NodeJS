@@ -6,7 +6,8 @@ var server = http.createServer(app);
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-wsServer(server);
+wsServer(server)
+
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
