@@ -6,9 +6,9 @@ const inputValueDiv = document.querySelector('.input-value');
 socket.on('messageToMainUser', message => {
   if (message.mainUser === true) {
     let str = '';
-
+    message.users.splice(0, 1);
     message.users.forEach(el => {
-      str = `${str}<div>${el.msg}</div> `;
+      str = `${str}<div>${el.value}</div> `;
     });
     result.innerHTML = str;
   };
@@ -16,9 +16,9 @@ socket.on('messageToMainUser', message => {
 
 socket.on('messageToMainUserFromUsers', message => {
   let str = '';
-
+  message.splice(0, 1);
   message.forEach(el => {
-    str = `${str}<div>${el.msg}</div> `;
+    str = `${str}<div>${el.value}</div> `;
   });
   result.innerHTML = str;
 });

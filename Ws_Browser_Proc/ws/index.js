@@ -10,17 +10,19 @@ const wsServer = (srv) => {
 
     console.log(`Client with id ${socket.id} connected`);
     clients.push(socket.id);
+    const newUser = new Object({
+      id: socket.id,
+      value: 0
+    });
 
+    usersArr.push(newUser);
     socket.broadcast.to(clients[0]).emit('messageToMainUser', { mainUser: true, users: usersArr });
 
     socket.on('messageFromInput', (msg) => {
-      const newUser = new Object({
-        id: socket.id,
-        msg
-      });
+      newUser.value = msg;
 
       const userIndex = usersArr.findIndex(o => o.id === newUser.id);
-      if (usersArr[userIndex]) { usersArr[userIndex] = newUser } else { usersArr.push(newUser) };
+      usersArr[userIndex] = newUser;
 
       socket.broadcast.to(clients[0]).emit('messageToMainUserFromUsers', usersArr);
     });
